@@ -115,7 +115,8 @@ namespace Project4._0_BackEnd.models
                     StartStream = DateTime.UtcNow,
                     EndStream = DateTime.Now,
                     Description = "Dit is de beschrijving van room 1",
-                    UserID = 2
+                    PresentatorID = 2,
+                    ModeratorID = 3
                 });
             context.Rooms.AddRange(
                 new Room
@@ -125,6 +126,7 @@ namespace Project4._0_BackEnd.models
                     StartStream = DateTime.UtcNow,
                     EndStream = DateTime.Now,
                     Description = "Dit is de beschrijving van room 2",
+                    PresentatorID = 4
                 });
 
             #endregion

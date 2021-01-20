@@ -25,14 +25,14 @@ namespace Project4._0_BackEnd.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Room>>> GetRooms()
         {
-            return await _context.Rooms.Include(x=>x.Moderator).ToListAsync();
+            return await _context.Rooms.Include(x => x.Moderator).Include(y=>y.Presentator).ToListAsync();
         }
 
         // GET: api/Room/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Room>> GetRoom(int id)
         {
-            var room = await _context.Rooms.Include(x=>x.Moderator).Where(y=>y.RoomID == id).FirstOrDefaultAsync();
+            var room = await _context.Rooms.Include(x => x.Moderator).Include(y=>y.Presentator).Where(y => y.RoomID == id).FirstOrDefaultAsync();
 
             if (room == null)
             {

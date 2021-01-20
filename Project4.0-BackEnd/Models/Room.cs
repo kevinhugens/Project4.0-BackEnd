@@ -14,7 +14,10 @@ namespace Project4._0_BackEnd.Models
         public DateTime StartStream { get; set; }
         public DateTime EndStream { get; set; }
         public string Description { get; set; }
-        public int? UserID { get; set; }
+        public Boolean Live { get; set; }
+        public int PresentatorID { get; set; }
+        public User Presentator { get; set; }
+        public int? ModeratorID { get; set; }
         public User Moderator { get; set; }
     }
 }
