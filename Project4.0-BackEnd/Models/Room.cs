@@ -10,7 +10,7 @@ namespace Project4._0_BackEnd.Models
         public int RoomID { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
-        public string linkStream { get; set; }
+        public string LinkStream { get; set; }
         public DateTime StartStream { get; set; }
         public DateTime EndStream { get; set; }
         public string Description { get; set; }

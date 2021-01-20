@@ -103,7 +103,6 @@ namespace Project4._0_BackEnd.models
                 });
 
             #endregion
-
             context.SaveChanges();
 
             #region Rooms
@@ -128,6 +127,30 @@ namespace Project4._0_BackEnd.models
                     Description = "Dit is de beschrijving van room 2",
                     PresentatorID = 4
                 });
+
+            #endregion
+            context.SaveChanges();
+
+            #region Polls
+            context.Polls.AddRange(
+                new Poll
+                {
+                    Question = "Question 1?",
+                    RoomID = 1,
+                });
+
+            #endregion
+            context.SaveChanges();
+            #region Options
+            context.Options.AddRange(
+                new Option { Content = "A", PollID = 1 }
+                );
+            context.Options.AddRange(
+                new Option { Content = "B", PollID = 1 }
+                );
+            context.Options.AddRange(
+                new Option { Content = "C", PollID = 1 }
+                );
 
             #endregion
             context.SaveChanges();
