@@ -106,6 +106,29 @@ namespace Project4._0_BackEnd.models
 
             context.SaveChanges();
 
+            #region Rooms
+
+            context.Rooms.AddRange(
+                new Room
+                {
+                    Name = "Room 1",
+                    StartStream = DateTime.UtcNow,
+                    EndStream = DateTime.Now,
+                    Description = "Dit is de beschrijving van room 1",
+                    UserID = 2
+                });
+            context.Rooms.AddRange(
+                new Room
+                {
+                    Name = "Room 2",
+                    Password = "room2",
+                    StartStream = DateTime.UtcNow,
+                    EndStream = DateTime.Now,
+                    Description = "Dit is de beschrijving van room 2",
+                });
+
+            #endregion
+            context.SaveChanges();
         }
     }
 }

@@ -15,10 +15,12 @@ namespace Project4._0_BackEnd.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Room> Rooms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<Room>().ToTable("Room");
         }
     }
 }
