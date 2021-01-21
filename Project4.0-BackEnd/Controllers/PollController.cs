@@ -101,6 +101,11 @@ namespace Project4._0_BackEnd.Controllers
             {
                 return NotFound();
             }
+            var options = await _context.Options.Where(x => x.PollID == id).ToListAsync();
+            foreach (var item in options)
+            {
+                _context.Options.Remove(item);
+            }
 
             _context.Polls.Remove(poll);
             await _context.SaveChangesAsync();
