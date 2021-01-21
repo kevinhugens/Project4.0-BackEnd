@@ -19,6 +19,7 @@ using Project4._0_BackEnd.Data;
 using Project4._0_BackEnd.Helpers;
 using Project4._0_BackEnd.models;
 using Project4._0_BackEnd.Services;
+using Project4._0_BackEnd.Hubs;
 
 namespace Project4._0_BackEnd
 {
@@ -41,6 +42,8 @@ namespace Project4._0_BackEnd
                        .AllowAnyMethod()
                        .AllowAnyHeader();
             }));
+
+            services.AddSignalR();
 
             services.AddControllers();
 
@@ -128,6 +131,11 @@ namespace Project4._0_BackEnd
             app.UseRouting();
 
             app.UseCors("MyPolicy");
+
+            app.UseSignalR(endpoints =>
+            {
+                endpoints.MapHub<ChatHub>("/chat");
+            });
 
             app.UseAuthentication();
 
