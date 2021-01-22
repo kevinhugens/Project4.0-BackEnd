@@ -28,6 +28,38 @@ namespace Project4._0_BackEnd.Services
             _projectContext = projectContext;
         }
 
+        public User GetUser(string token)
+        {
+            User user = null;
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_appSettings.Secret);
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
+                    ClockSkew = TimeSpan.Zero
+                }, out SecurityToken validatedToken);
+
+                var jwtToken = (JwtSecurityToken)validatedToken;
+                var userId = int.Parse(jwtToken.Claims.First(x => x.Type == "UserID").Value);
+
+                // attach user to context on successful jwt validation
+                user = _projectContext.Users.Find(userId);
+            }
+            catch
+            {
+                // do nothing if jwt validation fails
+                // user is not attached to context so request won't have access to secure routes
+            }
+
+            return user;
+        }
+
         public User Authenticate(string email, string password)
         {
             var user = _projectContext.Users.SingleOrDefault(x => x.Email == email);

@@ -9,5 +9,6 @@ namespace Project4._0_BackEnd.Services
     public interface IUserService
     {
         User Authenticate(string email, string password);
+        User GetUser(string token);
     }
 }

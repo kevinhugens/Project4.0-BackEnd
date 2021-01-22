@@ -44,6 +44,18 @@ namespace Project4._0_BackEnd.Controllers
 
             return user;
         }
+        [HttpGet("token/{token}")]
+        public async Task<ActionResult<User>> GetUserByToken(string token)
+        {
+            var user = _userService.GetUser(token);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
+        }
 
         // PUT: api/User/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
