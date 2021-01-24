@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Newtonsoft.Json;
+using Project4._0_BackEnd.Models;
 
 namespace Project4._0_BackEnd.Hubs
 {
@@ -16,7 +17,7 @@ namespace Project4._0_BackEnd.Hubs
             return base.OnConnectedAsync();
         }
 
-        public async Task SendMessageAsync(string message)
+        public async Task SendMessageAsync(Message message)
         {
             
                 await Clients.All.SendAsync("RecieveMessage", message);
