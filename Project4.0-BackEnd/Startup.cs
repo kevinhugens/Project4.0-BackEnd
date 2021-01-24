@@ -19,6 +19,7 @@ using Project4._0_BackEnd.Data;
 using Project4._0_BackEnd.Helpers;
 using Project4._0_BackEnd.models;
 using Project4._0_BackEnd.Services;
+using Project4._0_BackEnd.Hubs;
 
 namespace Project4._0_BackEnd
 {
@@ -37,10 +38,12 @@ namespace Project4._0_BackEnd
         {
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
+                builder.SetIsOriginAllowed(_ => true)
                        .AllowAnyMethod()
-                       .AllowAnyHeader();
+                       .AllowAnyHeader()
+                       .AllowCredentials();
             }));
+
 
             services.AddControllers();
 
@@ -106,6 +109,8 @@ namespace Project4._0_BackEnd
             services.AddDbContext<ProjectContext>(opt =>
             opt.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -136,6 +141,7 @@ namespace Project4._0_BackEnd
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
 
             DBInitializer.Initialize(context);
