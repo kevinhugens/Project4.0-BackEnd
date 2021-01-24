@@ -9,7 +9,7 @@ namespace Project4._0_BackEnd.Models
     {
         public string clientuniqueid { get; set; }
         public string message { get; set; }
-        public int roomID { get; set; }
+        public int roomId { get; set; }
         public string username { get; set; }
         public DateTime date { get; set; }
     }
