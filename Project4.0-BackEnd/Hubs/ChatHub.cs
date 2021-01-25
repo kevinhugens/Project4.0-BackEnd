@@ -38,5 +38,11 @@ namespace Project4._0_BackEnd.Hubs
 
 
         }
+
+        public async Task SendPollAsync(Poll poll, string roomName)
+        {
+            Console.WriteLine("connected to " + roomName);
+            await Clients.Group(roomName).SendAsync("ReceivePoll", poll);
+        }
     }
 }
