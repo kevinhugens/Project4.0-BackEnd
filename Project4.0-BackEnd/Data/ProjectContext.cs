@@ -18,6 +18,7 @@ namespace Project4._0_BackEnd.Data
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Poll> Polls { get; set; }
         public DbSet<Option> Options { get; set; }
+        public DbSet<UserInRoom> UserInRooms { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,6 +26,7 @@ namespace Project4._0_BackEnd.Data
             modelBuilder.Entity<Room>().ToTable("Room");
             modelBuilder.Entity<Poll>().ToTable("Poll");
             modelBuilder.Entity<Option>().ToTable("Option");
+            modelBuilder.Entity<UserInRoom>().ToTable("UserInRoom");
         }
     }
 }

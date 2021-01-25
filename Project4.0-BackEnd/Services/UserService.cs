@@ -50,6 +50,7 @@ namespace Project4._0_BackEnd.Services
 
                 // attach user to context on successful jwt validation
                 user = _projectContext.Users.Find(userId);
+                user.Token = token;
             }
             catch
             {

@@ -12,54 +12,54 @@ namespace Project4._0_BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PollController : ControllerBase
+    public class UserInRoomController : ControllerBase
     {
         private readonly ProjectContext _context;
 
-        public PollController(ProjectContext context)
+        public UserInRoomController(ProjectContext context)
         {
             _context = context;
         }
 
-        // GET: api/Poll
+        // GET: api/UserInRoom
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Poll>>> GetPolls()
+        public async Task<ActionResult<IEnumerable<UserInRoom>>> GetUserInRooms()
         {
-            return await _context.Polls.ToListAsync();
+            return await _context.UserInRooms.ToListAsync();
         }
 
-        // GET: api/Poll/5
+        // GET: api/UserInRoom/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Poll>> GetPoll(int id)
+        public async Task<ActionResult<UserInRoom>> GetUserInRoom(int id)
         {
-            var poll = await _context.Polls.Include(x => x.Options).Where(y => y.PollID == id).FirstOrDefaultAsync();
+            var userInRoom = await _context.UserInRooms.FindAsync(id);
 
-            if (poll == null)
+            if (userInRoom == null)
             {
                 return NotFound();
             }
 
-            return poll;
+            return userInRoom;
         }
 
         [HttpGet("room/{roomid}")]
-        public async Task<ActionResult<IEnumerable<Poll>>> GetPollsByRoomID(int roomid)
+        public async Task<ActionResult<IEnumerable<UserInRoom>>> GetAllUsersInRoom(int roomid)
         {
-            return await _context.Polls.Include(x => x.Options).Where(y => y.RoomID == roomid).ToListAsync();
+            return await _context.UserInRooms.Where(x => x.RoomID == roomid).ToListAsync();
         }
 
-        // PUT: api/Poll/5
+        // PUT: api/UserInRoom/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPoll(int id, Poll poll)
+        public async Task<IActionResult> PutUserInRoom(int id, UserInRoom userInRoom)
         {
-            if (id != poll.PollID)
+            if (id != userInRoom.UserInRoomID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(poll).State = EntityState.Modified;
+            _context.Entry(userInRoom).State = EntityState.Modified;
 
             try
             {
@@ -67,7 +67,7 @@ namespace Project4._0_BackEnd.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PollExists(id))
+                if (!UserInRoomExists(id))
                 {
                     return NotFound();
                 }
@@ -80,37 +80,37 @@ namespace Project4._0_BackEnd.Controllers
             return NoContent();
         }
 
-        // POST: api/Poll
+        // POST: api/UserInRoom
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Poll>> PostPoll(Poll poll)
+        public async Task<ActionResult<UserInRoom>> PostUserInRoom(UserInRoom userInRoom)
         {
-            _context.Polls.Add(poll);
+            _context.UserInRooms.Add(userInRoom);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPoll", new { id = poll.PollID }, poll);
+            return CreatedAtAction("GetUserInRoom", new { id = userInRoom.UserInRoomID }, userInRoom);
         }
 
-        // DELETE: api/Poll/5
+        // DELETE: api/UserInRoom/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Poll>> DeletePoll(int id)
+        public async Task<ActionResult<UserInRoom>> DeleteUserInRoom(int id)
         {
-            var poll = await _context.Polls.FindAsync(id);
-            if (poll == null)
+            var userInRoom = await _context.UserInRooms.FindAsync(id);
+            if (userInRoom == null)
             {
                 return NotFound();
             }
 
-            _context.Polls.Remove(poll);
+            _context.UserInRooms.Remove(userInRoom);
             await _context.SaveChangesAsync();
 
-            return poll;
+            return userInRoom;
         }
 
-        private bool PollExists(int id)
+        private bool UserInRoomExists(int id)
         {
-            return _context.Polls.Any(e => e.PollID == id);
+            return _context.UserInRooms.Any(e => e.UserInRoomID == id);
         }
     }
 }
