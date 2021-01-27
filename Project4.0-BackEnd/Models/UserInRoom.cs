@@ -14,5 +14,6 @@ namespace Project4._0_BackEnd.Models
         public int RoomID { get; set; }
         public Room Room { get; set; }
         public Boolean IsModerator { get; set; }
+        public Boolean IsAllowed { get; set; }
     }
 }
