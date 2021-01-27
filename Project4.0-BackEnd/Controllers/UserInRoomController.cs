@@ -42,6 +42,19 @@ namespace Project4._0_BackEnd.Controllers
             return userInRoom;
         }
 
+        [HttpGet("exists/{userID}/{roomID}")]
+        public async Task<ActionResult<UserInRoom>> UserInRoomExists(int userID, int roomID)
+        {
+            var userInRoom = await _context.UserInRooms.Where(x => x.RoomID == roomID & x.UserID == userID).FirstOrDefaultAsync();
+
+            if (userInRoom == null)
+            {
+                return null;
+            }
+
+            return userInRoom;
+        }
+
         [HttpGet("room/{roomid}")]
         public async Task<ActionResult<IEnumerable<UserInRoom>>> GetAllUsersInRoom(int roomid)
         {
@@ -86,6 +99,7 @@ namespace Project4._0_BackEnd.Controllers
         [HttpPost]
         public async Task<ActionResult<UserInRoom>> PostUserInRoom(UserInRoom userInRoom)
         {
+
             _context.UserInRooms.Add(userInRoom);
             await _context.SaveChangesAsync();
 
