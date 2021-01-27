@@ -27,8 +27,8 @@ namespace Project4._0_BackEnd.Data
             modelBuilder.Entity<Room>().ToTable("Room");
             modelBuilder.Entity<Poll>().ToTable("Poll");
             modelBuilder.Entity<Option>().ToTable("Option");
-            modelBuilder.Entity<UserInRoom>().ToTable("UserInRoom");
-            modelBuilder.Entity<UserInRoom>().ToTable("UserPoll");
+            modelBuilder.Entity<UserInRoom>().ToTable("UserInRoom").HasIndex(p => new { p.UserID, p.RoomID }).IsUnique();
+            modelBuilder.Entity<UserPoll>().ToTable("UserPoll");
         }
     }
 }
