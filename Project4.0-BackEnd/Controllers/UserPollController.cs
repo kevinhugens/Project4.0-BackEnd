@@ -42,6 +42,39 @@ namespace Project4._0_BackEnd.Controllers
             return userPoll;
         }
 
+        [HttpGet("poll/{pollid}")]
+        public async Task<List<int>> GetOptionCountOnPoll(int pollid)
+        {
+            var poll = await _context.Polls.Include(x => x.Options).Where(y => y.PollID == pollid).FirstOrDefaultAsync();
+
+            if (poll == null)
+            {
+                return new List<int>();
+            }
+            List<int> result = new List<int>();
+            for (int i = 0; i < poll.Options.Count; i++)
+            {
+                result.Add(await GetResult(poll.Options[i].OptionID));
+            }
+
+            return result;
+        }
+
+        
+        private async Task<int> GetResult(int optionid)
+        {
+            var userPoll = await _context.UserPolls.Where(x => x.OptionID == optionid).ToListAsync();
+
+            if (userPoll == null)
+            {
+                return 0;
+            }
+
+            return userPoll.Count;
+        }
+
+
+
         // PUT: api/UserPoll/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
