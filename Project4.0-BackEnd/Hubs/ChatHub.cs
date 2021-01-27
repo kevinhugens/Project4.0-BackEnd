@@ -26,9 +26,10 @@ namespace Project4._0_BackEnd.Hubs
         }
 
         public async Task JoinRoom(string roomName)
-        {
+        { 
             await Groups.AddToGroupAsync(Context.ConnectionId, roomName);
             //hier kan eventueel een bericht verstuurd worden dat de gebruiker in de room is.
+
         }
 
         public async Task SendMessageToRoomAsync(Message message, string roomName)
