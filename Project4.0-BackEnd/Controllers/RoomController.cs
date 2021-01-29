@@ -27,6 +27,25 @@ namespace Project4._0_BackEnd.Controllers
         {
             return await _context.Rooms.Include(x => x.Moderator).Include(y=>y.Presentator).ToListAsync();
         }
+        [HttpGet("week")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsForThisWeek()
+        {
+            DateTime currentDate = DateTime.Now;
+            DateTime endDate = currentDate.AddDays(7);
+            return await _context.Rooms.Where(a=> a.Live == true & a.StartStream>=currentDate & a.StartStream<=endDate).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z => z.StartStream).ToListAsync();
+        }
+        [HttpGet("live")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetAllLive()
+        {
+            DateTime currentDate = DateTime.Now;
+            return await _context.Rooms.Where(a => a.Live == true & a.StartStream <= currentDate & currentDate <= a.EndStream).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z => z.StartStream).ToListAsync();
+        }
+
+        [HttpGet("presentator/{presentatorID}")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromPresentator(int presentatorID)
+        {
+            return await _context.Rooms.Where(a => a.StartStream >= DateTime.Now & a.PresentatorID == presentatorID).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z=>z.StartStream).ToListAsync();
+        }
 
         // GET: api/Room/5
         [HttpGet("{id}")]
