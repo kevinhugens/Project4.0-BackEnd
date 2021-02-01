@@ -40,6 +40,22 @@ namespace Project4._0_BackEnd.Controllers
             DateTime currentDate = DateTime.Now;
             return await _context.Rooms.Where(a => a.Live == true & a.StartStream <= currentDate & currentDate <= a.EndStream).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z => z.StartStream).ToListAsync();
         }
+        [HttpGet("islive/{roomid}")]
+        public async Task<ActionResult<Boolean>> IsRoomLive(int roomid)
+        {
+            var room = await _context.Rooms.Where(y => y.RoomID == roomid).FirstOrDefaultAsync();
+            DateTime currentDate = DateTime.Now;
+            if (room == null)
+            {
+                return NotFound();
+            }
+            if(room.Live == true && room.StartStream <= currentDate && currentDate <= room.EndStream)
+            {
+                return true;
+            }
+            return false;
+        }
+
 
         [HttpGet("presentator/{presentatorID}")]
         public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromPresentator(int presentatorID)
