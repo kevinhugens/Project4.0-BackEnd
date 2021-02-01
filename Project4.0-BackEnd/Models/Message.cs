@@ -12,5 +12,9 @@ namespace Project4._0_BackEnd.Models
         public int roomId { get; set; }
         public string username { get; set; }
         public DateTime date { get; set; }
+
+        public Boolean isQuestion { get; set; }
+        public Boolean isValidatedQuestion { get; set; }
+        public Boolean isAcceptedQuestion { get; set; }
     }
 }
