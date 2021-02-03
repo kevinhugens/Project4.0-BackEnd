@@ -58,9 +58,19 @@ namespace Project4._0_BackEnd.Controllers
 
 
         [HttpGet("presentator/{presentatorID}")]
-        public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromPresentator(int presentatorID)
+        public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromPresentatorToManage(int presentatorID)
         {
             return await _context.Rooms.Where(a => a.StartStream >= DateTime.Now & a.PresentatorID == presentatorID).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z=>z.StartStream).ToListAsync();
+        }
+        [HttpGet("history")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromHistory()
+        {
+            return await _context.Rooms.Where(a => a.EndStream <= DateTime.Now).Include(y => y.Presentator).OrderByDescending(z => z.StartStream).ToListAsync();
+        }
+        [HttpGet("history/{presentatorID}")]
+        public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromHistoryFromPresentator(int presentatorID)
+        {
+            return await _context.Rooms.Where(a => a.PresentatorID == presentatorID & a.EndStream <= DateTime.Now).Include(x => x.Moderator).Include(y => y.Presentator).OrderByDescending(z => z.StartStream).ToListAsync();
         }
 
         // GET: api/Room/5
