@@ -58,7 +58,7 @@ namespace Project4._0_BackEnd.Controllers
         [HttpGet("room/{roomid}")]
         public async Task<ActionResult<IEnumerable<UserInRoom>>> GetAllUsersInRoom(int roomid)
         {
-            return await _context.UserInRooms.Where(x => x.RoomID == roomid).ToListAsync();
+            return await _context.UserInRooms.Where(x => x.RoomID == roomid).Include(y => y.User).ToListAsync();
         }
 
         // PUT: api/UserInRoom/5
