@@ -43,11 +43,15 @@ namespace Project4._0_BackEnd.Controllers
         [HttpGet("islive/{roomid}")]
         public async Task<ActionResult<Boolean>> IsRoomLive(int roomid)
         {
-            var room = await _context.Rooms.Where(y => y.RoomID == roomid & y.Live == true).FirstOrDefaultAsync();
+            var room = await _context.Rooms.Where(y => y.RoomID == roomid).FirstOrDefaultAsync();
             DateTime currentDate = DateTime.Now;
             if (room == null)
             {
                 return NotFound();
+            }
+            if (room.Live == false)
+            {
+                return false;
             }
             return true;
         }
