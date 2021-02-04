@@ -32,28 +32,24 @@ namespace Project4._0_BackEnd.Controllers
         {
             DateTime currentDate = DateTime.Now;
             DateTime endDate = currentDate.AddDays(7);
-            return await _context.Rooms.Where(a=> a.Live == true & a.StartStream>=currentDate & a.StartStream<=endDate).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z => z.StartStream).ToListAsync();
+            return await _context.Rooms.Where(a=> a.Published == true & a.StartStream>=currentDate & a.StartStream<=endDate).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z => z.StartStream).ToListAsync();
         }
         [HttpGet("live")]
         public async Task<ActionResult<IEnumerable<Room>>> GetAllLive()
         {
             DateTime currentDate = DateTime.Now;
-            return await _context.Rooms.Where(a => a.Live == true & a.StartStream <= currentDate & currentDate <= a.EndStream).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z => z.StartStream).ToListAsync();
+            return await _context.Rooms.Where(a => a.Live == true).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z => z.StartStream).ToListAsync();
         }
         [HttpGet("islive/{roomid}")]
         public async Task<ActionResult<Boolean>> IsRoomLive(int roomid)
         {
-            var room = await _context.Rooms.Where(y => y.RoomID == roomid).FirstOrDefaultAsync();
+            var room = await _context.Rooms.Where(y => y.RoomID == roomid & y.Live == true).FirstOrDefaultAsync();
             DateTime currentDate = DateTime.Now;
             if (room == null)
             {
                 return NotFound();
             }
-            if(room.Live == true && room.StartStream <= currentDate && currentDate <= room.EndStream)
-            {
-                return true;
-            }
-            return false;
+            return true;
         }
 
 
