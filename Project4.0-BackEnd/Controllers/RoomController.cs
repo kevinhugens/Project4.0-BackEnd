@@ -15,6 +15,7 @@ namespace Project4._0_BackEnd.Controllers
     public class RoomController : ControllerBase
     {
         private readonly ProjectContext _context;
+        private TimeZoneInfo myTimeZone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
 
         public RoomController(ProjectContext context)
         {
@@ -30,21 +31,19 @@ namespace Project4._0_BackEnd.Controllers
         [HttpGet("week")]
         public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsForThisWeek()
         {
-            DateTime currentDate = DateTime.Now;
-            DateTime endDate = currentDate.AddDays(7);
-            return await _context.Rooms.Where(a=> a.Published == true & a.StartStream>=currentDate & a.StartStream<=endDate).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z => z.StartStream).ToListAsync();
+            var currentDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
+            DateTime endDate = currentDateTime.AddDays(7);
+            return await _context.Rooms.Where(a=> a.Published == true & a.StartStream>= currentDateTime & a.StartStream<=endDate).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z => z.StartStream).ToListAsync();
         }
         [HttpGet("live")]
         public async Task<ActionResult<IEnumerable<Room>>> GetAllLive()
         {
-            DateTime currentDate = DateTime.Now;
             return await _context.Rooms.Where(a => a.Live == true).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z => z.StartStream).ToListAsync();
         }
         [HttpGet("islive/{roomid}")]
         public async Task<ActionResult<Boolean>> IsRoomLive(int roomid)
         {
             var room = await _context.Rooms.Where(y => y.RoomID == roomid).FirstOrDefaultAsync();
-            DateTime currentDate = DateTime.Now;
             if (room == null)
             {
                 return NotFound();
@@ -60,17 +59,20 @@ namespace Project4._0_BackEnd.Controllers
         [HttpGet("presentator/{presentatorID}")]
         public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromPresentatorToManage(int presentatorID)
         {
-            return await _context.Rooms.Where(a => a.StartStream >= DateTime.Now & a.PresentatorID == presentatorID).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z=>z.StartStream).ToListAsync();
+            var currentDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
+            return await _context.Rooms.Where(a => a.EndStream >= currentDateTime & a.PresentatorID == presentatorID).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z=>z.StartStream).ToListAsync();
         }
         [HttpGet("history")]
         public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromHistory()
         {
-            return await _context.Rooms.Where(a => a.EndStream <= DateTime.Now).Include(y => y.Presentator).OrderByDescending(z => z.StartStream).ToListAsync();
+            var currentDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
+            return await _context.Rooms.Where(a => a.EndStream <= currentDateTime).Include(y => y.Presentator).OrderByDescending(z => z.StartStream).ToListAsync();
         }
         [HttpGet("history/{presentatorID}")]
         public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromHistoryFromPresentator(int presentatorID)
         {
-            return await _context.Rooms.Where(a => a.PresentatorID == presentatorID & a.EndStream <= DateTime.Now).Include(x => x.Moderator).Include(y => y.Presentator).OrderByDescending(z => z.StartStream).ToListAsync();
+            var currentDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
+            return await _context.Rooms.Where(a => a.PresentatorID == presentatorID & a.EndStream <= currentDateTime).Include(x => x.Moderator).Include(y => y.Presentator).OrderByDescending(z => z.StartStream).ToListAsync();
         }
 
         // GET: api/Room/5
