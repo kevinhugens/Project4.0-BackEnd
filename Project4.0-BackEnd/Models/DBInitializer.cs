@@ -101,6 +101,50 @@ namespace Project4._0_BackEnd.models
                     HashSalt = saltUser6,
                     Role = "user",
                 });
+            byte[] saltJohn = Hashing.getSalt();
+            context.Users.AddRange(
+                new User
+                {
+                    FirstName = "John",
+                    LastName = "Doe",
+                    Email = "johndoe@testing.be",
+                    Password = Hashing.getHash("johndoe", saltJohn),
+                    HashSalt = saltJohn,
+                    Role = "user",
+                });
+            byte[] saltJane = Hashing.getSalt();
+            context.Users.AddRange(
+                new User
+                {
+                    FirstName = "Jane",
+                    LastName = "Doe",
+                    Email = "janedoe@testing.be",
+                    Password = Hashing.getHash("janedoe", saltJane),
+                    HashSalt = saltJane,
+                    Role = "user",
+                });
+            byte[] saltJos = Hashing.getSalt();
+            context.Users.AddRange(
+                new User
+                {
+                    FirstName = "Jos",
+                    LastName = "Vermeulen",
+                    Email = "josvermeulen@testing.be",
+                    Password = Hashing.getHash("josvermeulen", saltJos),
+                    HashSalt = saltJos,
+                    Role = "user",
+                });
+            byte[] saltJef = Hashing.getSalt();
+            context.Users.AddRange(
+                new User
+                {
+                    FirstName = "Jef",
+                    LastName = "Verstraten",
+                    Email = "jefverstraten@testing.be",
+                    Password = Hashing.getHash("jefverstraten", saltJef),
+                    HashSalt = saltJef,
+                    Role = "user",
+                });
 
             #endregion
             context.SaveChanges();
