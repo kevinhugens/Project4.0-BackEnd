@@ -60,7 +60,7 @@ namespace Project4._0_BackEnd.Controllers
         public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromPresentatorToManage(int presentatorID)
         {
             var currentDateTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, myTimeZone);
-            return await _context.Rooms.Where(a => a.EndStream >= currentDateTime & a.PresentatorID == presentatorID).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z=>z.StartStream).ToListAsync();
+            return await _context.Rooms.Where(a => (a.EndStream >= currentDateTime | a.Live == true) & a.PresentatorID == presentatorID).Include(x => x.Moderator).Include(y => y.Presentator).OrderBy(z=>z.StartStream).ToListAsync();
         }
         [HttpGet("history")]
         public async Task<ActionResult<IEnumerable<Room>>> GetAllRoomsFromHistory()

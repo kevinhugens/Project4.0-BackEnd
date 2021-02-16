@@ -120,7 +120,7 @@ namespace Project4._0_BackEnd
 
             app.UseSwaggerUI(x =>
             {
-                x.SwaggerEndpoint("/swagger/v1/swagger.json", "Foosball API");
+                x.SwaggerEndpoint("/swagger/v1/swagger.json", "Axxes Streams API");
             });
 
             if (env.IsDevelopment())
